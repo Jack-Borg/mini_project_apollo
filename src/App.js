@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import { ApolloProvider } from "react-apollo";
 import "./App.css";
 
-const client = new ApolloClient({ uri: `https://jackborg.dk/graphql/` });
+const client = new ApolloClient({ uri: `http://localhost:4000/graphql/` });
 
 function App() {
 	const [users, setUsers] = useState([]);
@@ -31,21 +31,21 @@ function App() {
 				query: ALL_USERS,
 				fetchPolicy: "no-cache"
 			})
-			.then((result) => setUsers(result.data.getAllUsers));
+			.then(result => setUsers(result.data.getAllUsers));
 	}
 
-	const handleCheck = (evt) => {
+	const handleCheck = evt => {
 		const value = evt.target.value;
 		if (evt.target.checked) {
 			meWant.push(value);
 		} else {
-			meWant = meWant.filter((el) => el !== value);
+			meWant = meWant.filter(el => el !== value);
 		}
 		setMeWant(meWant);
 		getAllUsers();
 	};
 
-	const updateNewUser = (evt) => {
+	const updateNewUser = evt => {
 		const name = evt.target.name;
 		const value = evt.target.value;
 
@@ -53,7 +53,7 @@ function App() {
 		setNewUser({ ...newUser });
 	};
 
-	const submitNewUser = (evt) => {
+	const submitNewUser = evt => {
 		evt.preventDefault();
 		const createUser = gql`
 			mutation($user: UserInput!) {
@@ -62,14 +62,14 @@ function App() {
                 }
 			}
 		`;
-		client.mutate({ mutation: createUser, variables: { user: newUser } }).then((result) => {
+		client.mutate({ mutation: createUser, variables: { user: newUser } }).then(result => {
 			let u = result.data.createUser;
 			users.push(u);
 			setUsers([...users]);
 		});
 	};
 
-	const resetUsers = (evt) => {
+	const resetUsers = evt => {
 		evt.preventDefault();
 		const resetU = gql`
 			mutation {
@@ -199,17 +199,17 @@ function UserTable({ users }) {
 		<table className="table">
 			<thead>
 				<tr>
-					{keys.map((key) => (
+					{keys.map(key => (
 						<th key={key}>{key}</th>
 					))}
 				</tr>
 			</thead>
 			<tbody>
-				{users.map((user) => (
+				{users.map(user => (
 					<tr key={user.username}>
 						{Object.keys(user)
 							.slice(0, -1)
-							.map((key) => (
+							.map(key => (
 								<td key={key}>{user[key]}</td>
 							))}
 					</tr>
