@@ -1,1 +1,1 @@
-Hosted on Jackborg.dk/apollo/
+Hosted on https://Jackborg.dk/apollo/
